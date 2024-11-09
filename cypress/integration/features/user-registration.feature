@@ -3,22 +3,34 @@ Feature: User Registration
   Scenario: Register a new user with valid details
     Given User opens Booking.com homepage
     When User clicks on the 'Register' button
-    And User enters a 'valid' email
+    And User enters valid email
     And User clicks on the 'Continue with email' button
     And User enters a valid password
     And User confirms the password
     And User clicks on the 'Create account' button
-    # Then Booking homepage is displayed
-    # And User reseives confirmation email
+    Then Booking homepage is displayed
+    And User reseives confirmation email
     
-
-  Scenario: Verify the field of email is validated if user enters invalid email format
+  
+  Scenario: Verify email field is validated if leave it empty and click to continue
     Given User opens Booking.com homepage
     When User clicks on the 'Register' button
-    #TODO: check if table data can be used to provide the list of emails and how it will work in cypress + empty table data for valid password
-    And User enters 'invalid' email
-    |lowercase|
-    |uppercase|
-    |digit|
-    |length|
+    When User clicks on the 'Continue with email' button
+    Then Email field is validated
+    And 'Enter email error' error message is displayed for email field
+
+  Scenario: Verify the field of password is validated if user enters invalid password format
+    Given User opens Booking.com homepage
+    When User clicks on the 'Register' button
+    And User enters valid email
+    And User clicks on the 'Continue with email' button
+    And User enters an invalid password that doesn`t match 'lowercase' rule
+    And User clicks on the 'Create account' button
+    Then 'Lowercase is missed' error message is displayed for password field
+    When User enters an invalid password that doesn`t match 'uppercase' rule
+    Then 'Uppercase is missed' error message is displayed for password field
+    When User enters an invalid password that doesn`t match 'digit' rule
+    Then 'Digit is missed' error message is displayed for password field
+    When User enters an invalid password that doesn`t match 'length' rule
+    Then 'Length is less than 10' error message is displayed for password field
     
