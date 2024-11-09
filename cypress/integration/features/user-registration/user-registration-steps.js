@@ -1,10 +1,12 @@
-import { Faker } from '@faker-js/faker';
+import faker from '../../../support/faker';
 import { Given, When, Then } from 'cypress-cucumber-preprocessor/steps';
 
+//TODO: get env variable and use baseUrl
 Given('User opens Booking.com homepage', () => {
   cy.visit('https://www.booking.com');
 });
 
+//TODO: add to common? check if it works in common
 When('User clicks on the {string} button', (buttonText) => {
   cy.contains(buttonText).click();
 });
@@ -16,36 +18,27 @@ When('User enters a {string} email', (validness) => {
   if (isValid) {
     email = `e2e_test_${new Date().getTime()}@gmail.com` 
   } else {
-    email = new Faker().string()
+    email = faker.string()
   }
   cy.get('input[type="email"]').type(email);
 });
 
+//TODO: check one more time generating password
 When('User enters a valid password', () => {
   // generate random valid password
-  let password = new Faker().internet.password()
-  .internet.password({
+  let password = faker.internet.password({
     length: Math.random(10, 100),
     pattern: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d]*$/
   })
 
-  console.log(password, 11111111)
   // set password to context variable
   cy.task('setValue', {key: 'validPassword', value: password})
-  cy.task('getValue', 'validPassword').then((val) => {
-    console.log(val, 1)
-  })
-
   cy.get('input[type="password"]').type(password);
 });
 
-When('User confirms the password {string}', (password) => {
+When('User confirms the password', () => {
   // get password value from context variable and type it to the field
   cy.task('getValue', 'validPassword').then((validPassword) => {
     cy.get('input[type="password"][name="confirm_password"]').type(validPassword);
   })
-});
-
-When('User clicks Create account', () => {
-  cy.contains('Create account').click();
 });
