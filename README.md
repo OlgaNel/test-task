@@ -1,4 +1,4 @@
-# Project Name
+# Booking test task
 
 This project is a testing setup using Cypress for end-to-end testing of booking website.
 
