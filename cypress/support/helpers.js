@@ -1,9 +1,6 @@
 import { faker } from "@faker-js/faker";
 import { EMAIL_ERROR_MESSAGES, INVALID_PASSWORD_REGEX, PASSWORD_ERROR_MESSAGES, VALID_PASSWORD_REGEX } from "./constants";
 
-
-//TODO: create directory helpers, put this file to userRegistration
-//TODO: add index.js that export * from userRegistration
 export const getRegistrationErrorMessageEmail = (label) => {
     const errorMessage = EMAIL_ERROR_MESSAGES[label];
 
@@ -34,4 +31,4 @@ export const generateInvalidPassword = (rule) => {
     return faker.helpers.fromRegExp(regex);
 };
 
-export const generateValidEmail = () => "olg.nelipa+unique@gmail.com"; //faker.internet.email();
+export const generateEmail = (isValid, regex) => isValid? faker.internet.email() : faker.helpers.fromRegExp(regex);
